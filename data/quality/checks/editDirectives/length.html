@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-10">
+        <ui-select ng-model="newColumn.column" theme="bootstrap">
+            <ui-select-match placeholder="select column to validate">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-success pull-left" ng-click="addColumn()">Add</button>
+    </div>
+</div>
+
+<div class="row margintop10" ng-repeat="column in validation.columns">
+    <div class="col-md-4" style="line-height:34px;">
+        {{ column.column }}
+    </div>
+    <div class="col-md-3">
+        <ui-select ng-model="column.operator" theme="bootstrap">
+            <ui-select-match>
+                {{ $select.selected.label }}
+            </ui-select-match>
+            <ui-select-choices repeat="operator.value as operator in operators | filter:$select.search track by $index">
+                <span>{{ operator.label }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-3">
+        <input type="number" ng-model="column.option" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger pull-left" ng-click="removeColumn($index)">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>

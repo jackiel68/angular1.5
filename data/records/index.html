@@ -1,0 +1,55 @@
+<div class="dqheader text-primary">
+    <h1><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;Data Records</h1>
+    <a ui-sref="data.quality.checks" class="btn btn-success btn-lg pull-right">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Run Validation
+    </a>
+</div>
+
+<div class="dqcontent datapage datapage-records">
+    <div ng-if="vm.tables.length==0 && !vm.loading" class="text-center">
+        <button ui-sref="data.console" class="btn btn-sm btn-primary">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back To Console
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <button id="single-button" type="button" class="btn btn-default" ng-click="vm.tablesSlideOpen=!vm.tablesSlideOpen;">
+                {{vm.tableSelected.slug}} <span class="caret"></span>
+            </button>
+        </div>
+        <div class="col-md-8 text-right" ng-if="vm.tableSelected!=null">
+            <button id="profile-btn" class="btn btn-primary btn-sm" ng-click="vm.openProfileData()">
+                <i class="fa fa-trash"></i> Profile Data
+            </button>
+            <button id="clear-btn" class="btn btn-danger btn-sm" ng-click="vm.clearData()" confirm="Are you sure to clear table '{{vm.tableSelected.slug}}?">
+                <i class="fa fa-trash"></i> Clear Data
+            </button>
+            <button class="btn btn-primary btn-sm" ng-click="vm.changeTableOptions()">
+                <i class="fa fa-gear"></i> Table Options
+            </button>
+        </div>
+    </div>
+    
+    <div class="row margintop20">
+        <div class="col-md-12" id="grid-container">
+            <div ui-grid="vm.tableGrid.options" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns></div>
+        </div>
+
+        <div id="tables-slide" pageslide ps-open="vm.tablesSlideOpen" ps-side="left" ps-push="true" ps-container="grid-container" ps-key-listener="true">
+            <ul>
+                <li ng-repeat="source in vm.tablesSorted" class="source">
+                    <div class="source-header" ng-click="source.expanded=!source.expanded;">
+                        <i class="fa fa-angle-down" ng-if="source.expanded"></i>
+                        <i class="fa fa-angle-right" ng-if="!source.expanded"></i>
+                        {{ source.source }}
+                    </div>
+                    <div class="source-tables" ng-show="source.expanded">
+                        <a ng-repeat="table in source.tables" ng-click="vm.selectTable(table); vm.tablesSlideOpen=false;" class="source-table-anchor" ng-class="{'selected':table.id==vm.tableSelected.id }">{{ table.slug }}</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+    

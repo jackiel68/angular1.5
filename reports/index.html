@@ -1,0 +1,64 @@
+<div class="dqheader text-primary">
+    <h1><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Reports</h1>
+</div>
+
+<div class="dqcontent reportspage margintop20">
+    <table class="table">
+        <thead>
+            <tr class="active">
+                <td class="col-sm-3 text-center">Dataset</td>
+                <td class="col-sm-3 text-center">Validation</td>
+                <td class="col-sm-3 text-center">Columns</td>
+                <td class="col-sm-3 text-center">Failures</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="quality in reports.qualities">
+                <td class="col-sm-3 text-center">{{ quality.datasetSlug }}</td>
+                <td class="col-sm-3 text-center">{{ quality.validation.label }}</td>
+                <td class="col-sm-3 text-center">
+                    <span ng-repeat="column in quality.columns">{{ column }}{{ $last ? '' : ', ' }}</b>
+                </td>
+                <td class="col-sm-3 text-center"><a ng-click="reports.selectQuality($index)" style="cursor:pointer;">{{ quality.failures }}</a></td>
+            </tr>
+            <tr>
+                <td class="col-sm-9 active text-center" colspan="3">Total</td>
+                <td class="col-sm-3 text-center">{{ reports.failuresTotal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="margintop20">
+    	<highchart config="reports.failuresGraph"></highchart>
+    </div>
+    
+    <table ng-if="reports.qualitySelected" class="table margintop20">
+        <tr>
+            <td class="col-sm-2 active text-center">Dataset</td>
+            <td class="col-sm-2 text-center">{{ reports.qualitySelected.datasetSlug }}</td>
+            <td class="col-sm-2 active text-center">Validation</td>
+            <td class="col-sm-2 text-center">{{ reports.qualitySelected.validation.label }}</td>
+            <td class="col-sm-2 active text-center">Failures</td>
+            <td class="col-sm-2 text-center">{{ reports.qualitySelected.failures }}</td>
+        </tr>
+        <tr>
+            <td class="col-sm-2 active text-center">Columns</td>
+            <td class="col-sm-10 text-center" colspan="5">
+                <span ng-repeat="column in reports.qualitySelected.columns">{{ column }}{{ $last ? '' : ', ' }}</b>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2 active text-center">Failed Records</td>
+            <td class="col-sm-10" colspan="5">
+                <div ng-if="!reports.qualitySelected.results" class="text-center text-info">
+                    <h2><i class="fa fa-spin fa-spinner"></i></h2>
+                </div>
+                <div ng-if="reports.qualitySelected.results && reports.qualitySelected.results.length>0" ui-grid="reports.failuresGrid.options" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns ui-grid-pinning style="height:300px;">
+                </div>
+                <div ng-if="reports.qualitySelected.results && reports.qualitySelected.results.length==0" class="text-center text-info">
+                    <h2>No Failures</h2>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

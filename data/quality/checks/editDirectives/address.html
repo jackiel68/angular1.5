@@ -1,0 +1,125 @@
+<div class="row">
+    <div class="col-md-3">
+        Line 1
+    </div>
+    <div class="col-md-7">
+        <ui-select ng-model="validation.columns.line_1" theme="bootstrap">
+            <ui-select-match placeholder="">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger secondary-action" ng-click="remove('line_1')">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row margintop10">
+    <div class="col-md-3">
+        Line 2
+    </div>
+    <div class="col-md-7">
+        <ui-select ng-model="validation.columns.line_2" theme="bootstrap">
+            <ui-select-match placeholder="">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger secondary-action" ng-click="remove('line_2')">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row margintop10">
+    <div class="col-md-3">
+        Line 3
+    </div>
+    <div class="col-md-7">
+        <ui-select ng-model="validation.columns.line_3" theme="bootstrap">
+            <ui-select-match placeholder="">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger secondary-action" ng-click="remove('line_3')">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row margintop10">
+    <div class="col-md-3">
+        City
+    </div>
+    <div class="col-md-7">
+        <ui-select ng-model="validation.columns.post_town" theme="bootstrap">
+            <ui-select-match placeholder="">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger secondary-action" ng-click="remove('post_town')">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row margintop10">
+    <div class="col-md-3">
+        Country
+    </div>
+    <div class="col-md-7">
+        <ui-select ng-model="validation.columns.country" theme="bootstrap">
+            <ui-select-match placeholder="">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger secondary-action" ng-click="remove('country')">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row margintop10">
+    <div class="col-md-3">
+        Postal Code
+    </div>
+    <div class="col-md-7">
+        <ui-select ng-model="validation.columns.postcode" theme="bootstrap">
+            <ui-select-match placeholder="">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger secondary-action" ng-click="remove('postcode')">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>

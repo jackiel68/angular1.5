@@ -1,0 +1,20 @@
+<div class="panel panel-primary panel-modal">
+    <div class="panel-heading">
+        <span class="title">Show/Hide Columns</span>
+        <span class="glyphicon glyphicon-remove text-right pointer pull-right" ng-click="modal.close()"></span>
+    </div>
+
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item text-right" ng-repeat="column in modal.columns">
+                <span class="pull-left">{{ column.name }}</span>
+                <input name="{{ column.name }}" class="pull-right" bs-switch ng-model="column.visible" switch-size="small" type="checkbox" switch-active="true" switch-on-text="Yes" switch-off-text="No" switch-on-color="success" switch-off-color="default">
+            </li>
+        </ul>
+
+        <div class="col-md-12 text-right">
+            <button class="btn btn-success" ng-click="modal.save()"><i class="fa fa-save"></i> Save</button>
+            <button class="btn btn-danger" ng-click="modal.close()">Cancel</button>
+        </div>
+    </div>
+</div>

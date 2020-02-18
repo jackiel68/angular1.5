@@ -1,0 +1,99 @@
+<div class="dqheader text-primary">
+    <h1><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Data Validation</h1>
+    <button ui-sref="data.quality.results" class="btn btn-info btn-lg pull-right">
+        <i class="fa fa-book"></i> View Quality Results
+    </button>
+    <button ng-click="quality.runValidations()" class="btn btn-primary btn-lg pull-right" ng-disabled="quality.isValidating" style="margin-right:15px;">
+        <i class="fa fa-gears"></i> Run Validation
+        <i class="fa fa-spin fa-refresh" ng-if="quality.isValidating"></i>
+    </button>
+</div>
+
+<div class="dqcontent datapage datapage-validation margintop20">
+    <div class="row">
+        <div class="col-md-6">
+            <ui-select ng-model="quality.datasetSelected" theme="bootstrap">
+                <ui-select-match placeholder="select dataset">
+                    {{ $select.selected.slug }}
+                </ui-select-match>
+                <ui-select-choices repeat="dataset in quality.datasets | filter:$select.search">
+                    <strong>{{ dataset.slug }}</strong><br/>
+                    <small style="word-wrap: break-word">
+                        <b ng-repeat="column in dataset.columns.data">{{ column.name }}{{ $last ? '' : ',' }}</b>
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+
+    <div class="row margintop20">
+        <div class="col-md-6">
+            <ui-select ng-model="quality.validationGroupSelected" on-select="quality.validationSelected=null;" theme="bootstrap">
+                <ui-select-match placeholder="select validation group...">
+                    {{ $select.selected.label }}
+                </ui-select-match>
+                <ui-select-choices repeat="validationGroup in (quality.validationsAll | filter:$select.search) track by $index">
+                    <strong>{{ validationGroup.label }}</strong><br/>
+                    <small>
+                        <span>{{ validationGroup.description }}</span>
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="col-md-6" ng-if="quality.validationGroupSelected.validations && quality.validationGroupSelected.validations.length>0">
+            <ui-select ng-model="quality.validationSelected" theme="bootstrap">
+                <ui-select-match placeholder="select validation">
+                    {{ $select.selected.label }}
+                </ui-select-match>
+                <ui-select-choices repeat="validation in (quality.validationGroupSelected.validations | filter:$select.search) track by $index">
+                    <strong>{{ validation.label }}</strong><br/>
+                    <small>
+                        <span>{{ validation.description }}</span>
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+
+    <button class="btn btn-primary margintop20" ng-click="quality.addValidation()">Add Validation</button>
+
+    <div class="margintop20">
+        <div class="panel panel-primary" ng-repeat="validation in quality.validations track by $index">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ validation.label }} Validation on {{ validation.datasetSlug }}</h3>
+                <button class="btn btn-sm btn-danger secondary-action" ng-click="quality.removeValidation($index)">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+            <div class="panel-body" validation-value validation="validation" ng-if="validation.type=='value'"></div>
+            <div class="panel-body" validation-option validation="validation" ng-if="validation.type=='option'"></div>
+            <div class="panel-body" validation-options validation="validation" ng-if="validation.type=='options'"></div>
+            <div class="panel-body" validation-length validation="validation" ng-if="validation.type=='length'"></div>
+            <div class="panel-body" validation-reference-option validation="validation" references="quality.references" ng-if="validation.type=='referenceoption'"></div>
+            <div class="panel-body" validation-address validation="validation" ng-if="validation.type=='address'"></div>
+            <div class="panel-body" validation-duplicate validation="validation" ng-if="validation.type=='duplicate'"></div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="margintop20">
+        <div class="panel panel-default check-panel" ng-repeat="result in quality.qualities track by $index">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ result.validation.label }} Validation on {{ result.datasetSlug }}</h3>
+                <button class="btn btn-sm btn-default secondary-action" ng-click="quality.repeatCheck(result);" ng-disabled="result.isRepeating">
+                    <i class="fa fa-spin fa-refresh" ng-if="result.isRepeating"></i>
+                    <i class="fa fa-refresh" ng-if="!result.isRepeating"></i>
+                </button>
+            </div>
+            <div class="panel-body" validation-details-value validation="result" ng-if="result.validation.type=='value'"></div>
+            <div class="panel-body" validation-details-option validation="result" ng-if="result.validation.type=='option'"></div>
+            <div class="panel-body" validation-details-options validation="result" ng-if="result.validation.type=='options'"></div>
+            <div class="panel-body" validation-details-length validation="result" ng-if="result.validation.type=='length'"></div>
+            <div class="panel-body" validation-details-referenceoption validation="result" ng-if="result.validation.type=='referenceoption'"></div>
+            <div class="panel-body" validation-details-address validation="result" ng-if="result.validation.type=='address'"></div>
+            <div class="panel-body" validation-details-duplicate validation="result" ng-if="result.validation.type=='duplicate'"></div>
+        </div>
+    </div>
+
+</div>

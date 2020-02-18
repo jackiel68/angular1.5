@@ -1,0 +1,3 @@
+<div ng-repeat="rule in validation.rules">
+	{{ rule.column }} : <span ng-repeat="option in rule.options">{{ option }}{{ $last ? '' : ', ' }}</span>
+</div>

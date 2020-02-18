@@ -1,0 +1,132 @@
+<div class="dqheader text-primary">
+    <h1><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Import</h1>
+</div>
+
+<div class="dqcontent margintop20 panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title" ng-if="import.step == 1">Step 1 of 2 - Pick A Data Source</h3>
+        <h3 class="panel-title" ng-if="import.step == 2">Step 2 of 2 - Select Data</h3>
+    </div>
+    <div class="panel-body">
+        <div ng-if="import.step == 1">
+            <tabset>
+                <tab heading="File" active="true">
+                    <div class="row margintop20">
+                        <div class="col-md-4">
+                            <h3>Select Files(CSV, XLS, & XLSX)</h3>
+                            <input type="file" nv-file-select="" filter="dataFilter" accept=".csv,.xls,.xlsx" uploader="import.uploader" multiple/><br/>
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="30%">Name</th>
+                                        <th ng-show="import.uploader.isHTML5">Size</th>
+                                        <th ng-show="import.uploader.isHTML5">Progress</th>
+                                        <th>Options</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in import.uploader.queue">
+                                        <td><strong>{{ item.file.name }}</strong></td>
+                                        <td ng-show="import.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB
+                                        </td>
+                                        <td ng-show="import.uploader.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div ng-if="import.isCsv(item.file.type)">
+                                                <div class="row">
+                                                    <div class="col-md-4">Enclosure</div>
+                                                    <div class="col-md-8"><input type="text" ng-model="item.csvParams.enclosure" class="form-control"></div>
+                                                </div>
+                                                <div class="row margintop10">
+                                                    <div class="col-md-4">Delimiter</div>
+                                                    <div class="col-md-8"><input type="text" ng-model="item.csvParams.delimiter" class="form-control"></div>
+                                                </div>
+                                                <div class="row margintop10">
+                                                    <div class="col-md-4">Escape</div>
+                                                    <div class="col-md-8"><input type="text" ng-model="item.csvParams.escape" class="form-control"></div>
+                                                </div>
+                                            </div
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="import.uploader.removeFromQueue(item)" ng-disabled="import.uploader.isUploading">
+                                                <span class="glyphicon glyphicon-trash"></span> Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="margintop10">
+                        <button class="btn btn-default" ui-sref="data.console" ng-disabled="import.uploader.isUploading"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+                        <button class="btn btn-default pull-right" ng-click="import.importReferenceData()" ng-disabled="import.uploader.isUploading" style="margin-left:10px;">Import Reference Data</i></button>
+                        <button class="btn btn-primary pull-right" ng-click="import.uploadFiles()" ng-disabled="import.uploader.isUploading">Upload & Next <i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                </tab>
+                <tab heading="Database">
+                    <div class="form-group margintop20">
+                        <label for="type">Type</label>
+                        <select class="form-control" id="type" ng-model="import.database.type" placeholder="Select Database Type">
+                            <option value="mysql">MySQL</option>
+                            <option value="sqlServer">SQL Server</option>
+                            <option value="oracle">Oracle</option>
+                            <option value="sqlite">SQLite</option>
+                            <option value="postgres">Postgres</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-if="import.database.type!='sqlite'">
+                        <label for="hostname">Host</label>
+                        <input class="form-control" type="text" id="hostname" ng-model="import.database.credentials.host"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input class="form-control" type="text" id="username" ng-model="import.database.credentials.username"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" id="password" ng-model="import.database.credentials.password"/>
+                    </div>
+                    <div class="form-group" ng-if="import.database.type !='sqlite'">
+                        <label for="database">Database</label>
+                        <input class="form-control" type="text" id="database" ng-model="import.database.credentials.database"/>
+                    </div>
+                    <div class="margintop10">
+                        <button class="btn btn-default" ui-sref="data.console"><i class="fa fa-arrow-circle-left" ng-disabled="import.isProcessing"></i> Cancel</button>
+                        <button class="btn btn-primary pull-right" ng-click="import.connectDB(import.database)" ng-disabled="import.isProcessing">Next <i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                </tab>
+                <tab heading="Application">
+                </tab>
+            </tabset>
+        </div>
+        <div ng-if="import.step == 2">
+            <div class="form-group margintop10">
+                <label for="dbQuery">Enter SQL Query</label>
+                <textarea class="form-control" id="dbQuery" ng-model="import.database.dbQuery"/></textarea>
+                <div class="margintop10">
+                    <button class="btn btn-default" ng-click="import.step=1;" ng-disabled="import.isProcessing"><i class="fa fa-arrow-circle-left"></i> Back</button>
+                    <button class="btn btn-success btn-lg" ng-click="import.importByQuery()" ng-disabled="import.isProcessing">Import</button>
+                    <button class="btn btn-warning" ui-sref="data.console" ng-disabled="import.isProcessing"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+                </div>
+            </div>
+            
+            <hr/>
+
+            <div class="form-group margintop20">
+                <label for="treeView">Select fields</label>
+                <div ivh-treeview="import.tables" id="treeView" ivh-treeview-label-attribute="'name'" ivh-treeview-children-attribute="'columns'" ivh-treeview-selected-attribute="'import'" ivh-treeview-indeterminate-attribute="'partial'"></div>
+                <div class="margintop10">
+                    <button class="btn btn-default" ng-click="import.step=1;" ng-disabled="import.isProcessing"><i class="fa fa-arrow-circle-left"></i> Back</button>
+                    <button class="btn btn-success btn-lg" ng-click="import.importTables()" ng-disabled="import.isProcessing">Import</button>
+                    <button class="btn btn-warning" ui-sref="data.console" ng-disabled="import.isProcessing"><i class="fa fa-arrow-circle-left"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

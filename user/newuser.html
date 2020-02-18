@@ -1,0 +1,26 @@
+<div class="dqheader text-primary">
+    <h1><span class="glyphicon glyphicon-th" aria-hidden="true"></span> New User</h1>
+</div>
+
+<div class="userpage userpage-newuser">
+    <form ng-submit="userForm.$valid && vm.createUser();" name="userForm" novalidate>
+        <div class="form-group" ng-class="{'has-error':userForm.$submitted && userForm.role.$invalid}">
+            <label for="role">Role</label>
+            <select name="role" id="role" ng-options="role.id as role.name for role in vm.roles" ng-model="vm.user.role" class="form-control" required></select>
+            <div ng-if="userForm.$submitted && userForm.role.$error.required" class="error-msg text-danger">Role is empty</div>
+        </div>
+        <div class="form-group" ng-class="{'has-error':userForm.$submitted && userForm.email.$invalid}">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" maxlength="80" required ng-model="vm.user.email">
+            <div ng-if="userForm.$submitted && userForm.email.$error.required" class="error-msg text-danger">Email is empty</div>
+            <div ng-if="userForm.$submitted && userForm.email.$error.email" class="error-msg text-danger">Email is invalid</div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary pull-right">Create</button>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            <a ui-sref="data.console">Back to Dashboard</a>
+        </div>
+    </form>
+</div>

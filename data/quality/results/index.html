@@ -1,0 +1,89 @@
+<div class="dqheader text-primary">
+    <h1><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Quality Results</h1>
+    <a ui-sref="reports" class="btn btn-info btn-lg pull-right">
+        <i class="fa fa-book"></i> View Reports
+    </a>
+    <a ui-sref="data.quality.checks" class="btn btn-success btn-lg pull-right" style="margin-right:15px;">
+        <i class="fa fa-refresh"></i> Go to Validation
+    </a>
+</div>
+
+<div class="dqcontent datapage datapage-results margintop20">
+
+    <div class="row">
+        <div class="col-md-4">
+            <button id="select-result" type="button" class="btn btn-default" ng-click="quality.resultsSlideOpen=!quality.resultsSlideOpen;">
+                {{ quality.currentResult.title }}
+                <span class="caret"></span>
+            </button>
+        </div>
+        <div class="col-md-4 col-md-offset-4 text-right" ng-if="quality.currentResult.status=='complete' && quality.currentResult.detailsLoaded">
+            <button class="btn btn-success btn-sm" ng-click="quality.fix()">
+                <i class="fa fa-check"></i> Fix
+            </button>
+            <div class="btn-group" dropdown>
+                <button id="export-button" type="button" class="btn btn-primary btn-sm" dropdown-toggle>
+                    <i class="fa fa-download"></i> Export <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="export-button">
+                    <li role="menuitem"><a ng-click="quality.exportPdf()">PDF</a></li>
+                    <li role="menuitem"><a ng-csv="quality.currentResult.csv.content" csv-header="quality.currentResult.csv.header" filename="{{ quality.currentResult.title }}">CSV</a></li>
+                </ul>
+            </div>
+            <button class="btn btn-primary btn-sm" ng-click="quality.changeGridOptions()">
+                <i class="fa fa-gear"></i> Options
+            </button>
+        </div>
+    </div>
+    
+    <div class="row margintop20">
+        <div id="data-container" class="col-md-12">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-sm-3 text-center active">Dataset</td>
+                        <td class="col-sm-3 text-center">{{ quality.currentResult.datasetSlug }}</td>
+                        <td class="col-sm-3 text-center active">Validation</td>
+                        <td class="col-sm-3 text-center">{{ quality.currentResult.validation.label }}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-3 text-center active">Columns</td>
+                        <td class="col-sm-3 text-center">
+                            <span ng-repeat="column in quality.currentResult.columns">{{ column }}{{ $last ? '' : ', ' }}</b>
+                        </td>
+                        <td class="col-sm-3 text-center active">Failures</td>
+                        <td class="col-sm-3 text-center">{{ quality.currentResult.failures }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div ng-if="quality.currentResult.status=='complete' && !quality.currentResult.detailsLoaded" class="text-info text-center">
+                <i class="fa fa-spin fa-spinner text-info"></i>
+            </div>
+
+            <div ng-if="quality.currentResult.status=='complete' && quality.currentResult.detailsLoaded && quality.grid.options.data.length>0" ui-grid="quality.grid.options" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns ui-grid-pinning>
+            </div>
+
+            <div ng-if="quality.currentResult.status=='complete' && quality.currentResult.detailsLoaded && quality.grid.options.data.length==0" class="text-info text-center">
+            </div>
+
+            <div ng-if="quality.currentResult.status=='error'" class="text-center text-danger">
+            </div>
+
+            <div ng-if="quality.currentResult.status=='inprogress'" class="text-center text-info">
+            </div>
+        </div>
+
+        <div id="results-slide" pageslide ps-open="quality.resultsSlideOpen" ps-side="left" ps-push="true" ps-container="data-container" ps-key-listener="true">
+            <ul>
+                <li ng-repeat="result in quality.results" ng-click="quality.selectResult($index); quality.resultsSlideOpen=false;" class="result-anchor" ng-class="{'selected':result.id==quality.currentResult.id }">
+                    <i ng-if="result.status=='error'" class="fa fa-exclamation-circle text-danger"></i>
+                    <i ng-if="result.status=='complete'" class="fa fa-check-circle text-success"></i>
+                    <i ng-if="result.status=='inprogress'" class="fa fa-hourglass-half text-info"></i>
+                    {{ result.title }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>

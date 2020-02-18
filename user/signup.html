@@ -1,0 +1,60 @@
+<style>
+    #page {
+        margin-top: 50px;
+    }
+</style>
+
+<div class="userpage-header">
+    <div class="logo"></div>
+</div>
+
+<div class="userpage userpage-signup">
+    <h1 class="title">Create An Account</h1>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form ng-submit="createAccountForm.$valid && createAccount();" name="createAccountForm" novalidate>
+                <div class="form-group" ng-class="{'has-error':createAccountForm.$submitted && createAccountForm.name.$invalid}">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your Name" name="name" ng-model="name" maxlength="80" required>
+                    <div ng-if="createAccountForm.$submitted && createAccountForm.name.$error.required" class="error-msg text-danger">Name is empty</div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':createAccountForm.$submitted && createAccountForm.email.$invalid}">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your Email" name="email" ng-model="email" maxlength="80" required>
+                    <div ng-if="createAccountForm.$submitted && createAccountForm.email.$error.required" class="error-msg text-danger">Email is empty</div>
+                    <div ng-if="createAccountForm.$submitted && createAccountForm.email.$error.email" class="error-msg text-danger">Email is invalid</div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':createAccountForm.$submitted && createAccountForm.password.$invalid}">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your Password" name="password" ng-model="password" maxlength="80" required>
+                    <div ng-if="createAccountForm.$submitted && createAccountForm.password.$error.required" class="error-msg text-danger">Password is empty</div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':createAccountForm.$submitted && createAccountForm.passwordConfirm.$invalid}">
+                    <label for="passwordConfirm">Re-Password</label>
+                    <input type="password" class="form-control" id="passwordConfirm" placeholder="Enter your Password again" name="passwordConfirm" ng-model="passwordConfirm" maxlength="80" compare-to="password">
+                    <div ng-if="createAccountForm.$submitted && createAccountForm.passwordConfirm.$error.compareTo" class="error-msg text-danger">Passwords don't match.</div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':createAccountForm.$submitted && createAccountForm.organization.$invalid}">
+                    <label for="organization">Organization</label>
+                    <input type="text" class="form-control" id="organization" placeholder="Enter your Organization Name" name="organization" ng-model="organization" maxlength="80" required>
+                    <div ng-if="createAccountForm.$submitted && createAccountForm.organization.$error.required" class="error-msg text-danger">Organization is empty</div>
+                </div>
+                <div>
+                    <input type="checkbox" name="agree" ng-model="agree" id="agree">
+                    <label for="agree">I agree to the terms of services</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Create Account</button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <a ui-sref="login">Already have an account?</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <img src="assets/img/home_right.jpg" alt="DQC" title="DQC" class="biglogo"/>
+        </div>
+    </div>
+</div>

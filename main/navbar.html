@@ -1,0 +1,54 @@
+<div id="navbar" class="navbar-fixed-top navbar-default">
+    <div class="container">
+
+        <div class="navbar-header">
+            <a class="logo" ui-sref="data.console"></a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="nav-item" ui-sref-active="active">
+                    <a ui-sref="data.console">
+                        CONSOLE<sup><span class="fa fa-circle" aria-hidden="true"></span></sup>
+                    </a>
+                </li>
+                <li class="nav-item" ui-sref-active="active">
+                    <a ui-sref="data.records">
+                        DATA<sup><span class="fa fa-circle" aria-hidden="true"></span></sup>
+                    </a>
+                </li>
+                <li class="nav-item" ui-sref-active="active">
+                    <a ui-sref="data.quality.results">
+                        QUALITY<sup><span class="fa fa-circle" aria-hidden="true"></span></sup>
+                    </a>
+                </li>
+                <li class="nav-item" ui-sref-active="active">
+                    <a ui-sref="reports">
+                        REPORTS<sup><span class="fa fa-circle" aria-hidden="true"></span></sup>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a ui-sref="profile">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
+                        <span>{{ curuser.name }}</span>
+                    </a>
+                </li>
+                <li class="nav-item" ng-if="curuser.isUserAdmin==true">
+                    <a ui-sref="newuser">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
+                        <span>Create User</span>
+                    </a>
+                </li> 
+                <li class="nav-item pointer">
+                    <a ng-controller="userController" ng-click="logout();">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>

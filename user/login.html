@@ -1,0 +1,40 @@
+<style>
+    #page {
+        margin-top: 50px;
+    }
+</style>
+
+<div class="userpage-header">
+    <div class="logo"></div>
+</div>
+
+<div class="userpage userpage-login">
+    <h1 class="title">Admin Login</h1>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form ng-submit="login();" role="form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" placeholder="Enter your username" ng-model="username" maxlength="80">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" placeholder="Enter your password"ng-model="password" maxlength="80">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Sign In</button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <a ui-sref="forgotpass">Forgot your password?</a><br>
+                    <a ui-sref="signup">Create your account</a>
+                </div>
+            </form>
+            
+        </div>
+        <div class="col-sm-6">
+            <img src="assets/img/home_right.jpg" alt="DQC" title="DQC" class="biglogo"/>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12">
+        <ui-select ng-model="validation.columns" theme="bootstrap" multiple>
+            <ui-select-match placeholder="select columns to validate">
+                {{ $item.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="panel panel-primary panel-modal">
+    <div class="panel-heading">
+        <span class="title">Profile Data of {{ modal.table.slug }}</span>
+        <span class="glyphicon glyphicon-remove pull-right pointer" ng-click="modal.close()"></span>
+    </div>
+
+    <div class="panel-body text-center" ng-if="modal.isLoading && !modal.isError">
+        <i class="fa fa-spin fa-refresh text-primary"></i>
+    </div>
+
+    <div class="panel-body" ng-if="!modal.isLoading && !modal.isError">
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Length</td>
+                    <td>Auto Increment</td>
+                    <td>Default</td>
+                    <td>Nullable</td>
+                    <td>Primary</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="column in modal.columns">
+                    <td>{{ column.name }}</td>
+                    <td>{{ column.type }}</td>
+                    <td>{{ column.length }}</td>
+                    <td ng-if="column.autoincrement"><i class="fa fa-check"></i></td>
+                    <td ng-if="!column.autoincrement"></td>
+                    <td>{{ column.default }}</td>
+                    <td>{{ column.nullable ? 'Yes' : 'No' }}</td>
+                    <td ng-if="column.primary"><i class="fa fa-check"></i></td>
+                    <td ng-if="!column.primary"></td>
+                </tr>
+            </tbody>
+        </table>
+        <highchart config="modal.chartConfig"></highchart>
+        <div class="text-right">
+            <button class="btn btn-primary" ng-csv="modal.csv" csv-header="modal.csvHeader" filename="{{ modal.table.slug + '_profile.csv'}}" ng-disabled="modal.isLoading || modal.isError">Save as CSV</button>
+            <button class="btn btn-danger" ng-click="modal.close()">Cancel</button>
+        </div>
+    </div>
+</div>

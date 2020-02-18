@@ -1,0 +1,48 @@
+<style>
+    #page {
+        margin-top: 50px;
+    }
+</style>
+
+<div class="userpage-header">
+    <div class="logo"></div>
+</div>
+
+<div class="userpage userpage-getinvite">
+    <h1 class="title">Receive Invitation</h1>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div ng-if="!vm.codeChecking && !vm.codeValid" class="text-danger">
+                Invitation Code is not valid.
+            </div>
+            <form ng-submit="getInviteForm.$valid && vm.getInvite();" name="getInviteForm" novalidate ng-if="!vm.codeChecking && vm.codeValid">
+                <div class="form-group" ng-class="{'has-error':getInviteForm.$submitted && getInviteForm.name.$invalid}">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your Name" name="name" ng-model="vm.user.name" maxlength="80" required>
+                    <div ng-if="getInviteForm.$submitted && getInviteForm.name.$error.required" class="error-msg text-danger">Name is empty</div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':getInviteForm.$submitted && getInviteForm.password.$invalid}">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your Password" name="password" ng-model="vm.user.password" maxlength="80" required>
+                    <div ng-if="getInviteForm.$submitted && getInviteForm.password.$error.required" class="error-msg text-danger">Password is empty</div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':getInviteForm.$submitted && getInviteForm.passwordConfirm.$invalid}">
+                    <label for="passwordConfirm">Re-Password</label>
+                    <input type="password" class="form-control" id="passwordConfirm" placeholder="Enter your Password again" name="passwordConfirm" ng-model="vm.user.password_confirmation" maxlength="80" compare-to="vm.user.password">
+                    <div ng-if="getInviteForm.$submitted && getInviteForm.passwordConfirm.$error.compareTo" class="error-msg text-danger">Passwords don't match</div>
+                </div>
+                <div>
+                    <input type="checkbox" name="agree" ng-model="vm.agree" id="agree">
+                    <label for="agree">I agree to the terms of services</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <img src="assets/img/home_right.jpg" alt="DQC" title="DQC" class="biglogo"/>
+        </div>
+    </div>
+</div>

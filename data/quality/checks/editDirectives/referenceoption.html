@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-10">
+        <ui-select ng-model="newColumn.column" theme="bootstrap">
+            <ui-select-match placeholder="select column to validate">
+                {{ $select.selected.name }}
+            </ui-select-match>
+            <ui-select-choices repeat="column.name as column in validation.dataset.columns.data | filter:$select.search track by $index">
+                <span>{{ column.name }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-success pull-left" ng-click="addColumn()">Add</button>
+    </div>
+</div>
+
+<div class="row margintop10" ng-repeat="column in validation.columns">
+    <div class="col-md-4" style="line-height:34px;">
+        {{ column.column }}
+    </div>
+    <div class="col-md-6">
+        <ui-select ng-model="column.reference_slug" theme="bootstrap">
+            <ui-select-match placeholder="select slug">
+                {{ $select.selected.slug }}
+            </ui-select-match>
+            <ui-select-choices repeat="dataset as dataset in references | filter:$select.search track by $index">
+                <span>{{ dataset.slug }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-sm btn-danger pull-left" ng-click="removeColumn($index)">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+    <div class="col-md-6 col-md-offset-4 margintop10">
+        <ui-select ng-model="column.reference_column" theme="bootstrap">
+            <ui-select-match placeholder="select column">
+                {{ $select.selected }}
+            </ui-select-match>
+            <ui-select-choices repeat="col as col in column.reference_slug.columns | filter:$select.search track by $index">
+                <span>{{ col }}</span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</div>
